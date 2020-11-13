@@ -34,8 +34,7 @@ class PhotosController < ApplicationController
   end 
 
   def create 
-    # {"input_image"=>"a", "input_caption"=>"b", "input_owner_id"=>"c"}
-
+   
     input_image = params.fetch("query_image")
     input_caption = params.fetch("query_caption")
     input_owner_id = params.fetch("query_owner_id")
@@ -48,5 +47,25 @@ class PhotosController < ApplicationController
     new_photo.save
 
     redirect_to("/photos/" + new_photo.id.to_s)
+  end 
+
+  def update 
+    # {"input_image"=>"a", "input_caption"=>"b", "input_owner_id"=>"c"}
+    the_id = params.fetch("path_id")
+
+    matching_photos = Photo.where({ :id => the_id })
+    the_photo = matching_photos.at(0)
+
+    
+    new_image = params.fetch("query_image")
+    new_caption = params.fetch("query_caption")
+
+    the_photo.caption = new_caption
+    the_photo.image = new_image
+  
+
+    the_photo.save
+
+    redirect_to("/photos/" + the_photo.id.to_s)
   end 
 end
